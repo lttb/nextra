@@ -110,9 +110,10 @@ export type PageItem = (MdxFile | FolderWithoutChildren) & {
   isUnderCurrentDocsTree?: boolean
 }
 
-export type MenuItem = (MdxFile | FolderWithoutChildren) & IMenuItem & {
-  children?: PageItem[]
-}
+export type MenuItem = (MdxFile | FolderWithoutChildren) &
+  IMenuItem & {
+    children?: PageItem[]
+  }
 
 type DocsItem = (MdxFile | FolderWithoutChildren) & {
   title: string
@@ -253,7 +254,9 @@ export function normalizePages({
   }
 
   for (let i = 0; i < items.length; i++) {
-    const a = items[i]
+    let a = items[i]
+
+    console.log('a', a, a.name, items[i + 1]?.name)
 
     // If there are two items with the same name, they must be a directory and a
     // page. In that case we merge them, and use the page's link.
@@ -263,6 +266,17 @@ export function normalizePages({
         items[i + 1].children = a.children
       }
       continue
+    }
+
+    const samePage = a.children?.find(x => x.name === a.name)
+
+    if (
+      a.children?.filter(x => x.kind === 'MdxPage').length === 1 &&
+      samePage
+    ) {
+      a = { ...samePage }
+    } else if (samePage) {
+      a = { ...samePage, children: a.children, withIndexPage: true }
     }
 
     // Get the item's meta information.

@@ -116,6 +116,8 @@ function FolderImpl({ item, anchors }: FolderProps): ReactElement {
     })
   }
 
+  console.log('children', item, item.children)
+
   return (
     <li className={cn({ open, active })}>
       <Anchor
