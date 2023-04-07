@@ -1,0 +1,12 @@
+{
+  "Dropdown": {
+    "title": "Dropdown",
+    "theme": {
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
+  }
+}
